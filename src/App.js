@@ -66,7 +66,13 @@ class Weather extends React.Component {
 
     changeValue(city) {
         fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&units=metric&APPID=db088bed6a1d9bfbf4de73b069768c93`)
-            .then(res => res.json())
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    return Promise.reject(res)
+                }
+            })
             .then(
                 (result) => {
                     this.setState({
@@ -91,8 +97,10 @@ class Weather extends React.Component {
         if (error) {
             return (
                 <div>
-                    <h5>Przepraszamy wyszukana miejscowość nie istnieje</h5>
-                    <a href="/" className="btn btn-sm mt-4">Wyszukaj ponownie</a>
+                    <h6>Przepraszamy wyszukana miejscowość nie istnieje</h6>
+                    <div className="back">
+                        <a href="/" className="btn btn-sm">Wyszukaj ponownie</a>
+                    </div>
                 </div>
             )
         } else if (!isLoaded) {
@@ -105,7 +113,7 @@ class Weather extends React.Component {
             return (
                 <div>
                     <Score city={this.state.city} temp={this.state.temp} desc={this.state.desc} icon={this.state.icon} />
-                    <div class="back">
+                    <div className="back">
                         <a href="/" className="btn btn-sm">Wyszukaj ponownie</a>
                     </div>
                 </div>
