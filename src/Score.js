@@ -1,26 +1,23 @@
 import React from 'react';
 
-class Score extends React.Component {
-    render() {
-        const { city, temp, desc, icon } = this.props
-        return (
+function Score(props) {
+    return (
+        <div>
             <div>
-                <div>
-                    <div className="icon">
-                        <span>{desc}</span>
-                        <img src={icon} alt="Obrazek" />
-                    </div>
-                    <div className="desctiption">
-                        <span>{city}</span>
-                        <span>{temp}&#8451;</span>
-                    </div>
+                <div className="icon">
+                    <span>{props.desc}</span>
+                    <img src={props.icon} alt="Obrazek" />
                 </div>
-                <div className="back">
-                    <a href="/" className="btn btn-sm">Wyszukaj ponownie</a>
+                <div className="desctiption">
+                    <span>{props.city}</span>
+                    <span>{props.temp}&#8451;</span>
                 </div>
             </div>
-        )
-    }
+            <div className="back">
+                <a href="/" className="btn btn-sm">Wyszukaj ponownie</a>
+            </div>
+        </div>
+    )
 }
 
 export default Score;
