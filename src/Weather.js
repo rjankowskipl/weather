@@ -17,35 +17,58 @@ class Weather extends React.Component {
         };
     }
 
-    changeValue = (city) => {
-        return (
-            fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&units=metric&APPID=db088bed6a1d9bfbf4de73b069768c93`)
-                .then(res => {
-                    if (res.ok) {
-                        return res.json()
-                    } else {
-                        return Promise.reject(res)
-                    }
-                })
-                .then(
-                    (result) => {
-                        this.setState({
-                            isLoaded: true,
-                            city: result.name,
-                            temp: Math.round(result.main.temp),
-                            desc: result.weather[0].description,
-                            icon: `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`
-                        });
-                    },
-                    (error) => {
-                        this.setState({
-                            isLoaded: true,
-                            error
-                        });
-                    }
-                )
-        )
+    changeValue = async (city) => {
+        try {
+            const res = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&units=metric&APPID=db088bed6a1d9bfbf4de73b069768c93`);
+            const data = await res.json();
+            const { name, main, weather } = data
+            console.log({name, main, weather})
+
+            this.setState({
+                isLoaded: true,
+                city: name,
+                temp: Math.round(main.temp),
+                desc: weather[0].description,
+                icon: `https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`
+            });
+        } catch(error) {
+            this.setState({
+                isLoaded: true,
+                error
+            })
+        }
     }
+
+
+    // async changeValue(city) {
+    //     return (
+    //         await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&units=metric&APPID=db088bed6a1d9bfbf4de73b069768c93`)
+    //             .then(res => {
+    //                 if (res.ok) {
+    //                     return res.json()
+    //                 } else {
+    //                     return Promise.reject(res)
+    //                 }
+    //             })
+    //             .then(
+    //                 (result) => {
+    //                     this.setState({
+    //                         isLoaded: true,
+    //                         city: result.name,
+    //                         temp: Math.round(result.main.temp),
+    //                         desc: result.weather[0].description,
+    //                         icon: `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`
+    //                     });
+    //                 },
+                    // (error) => {
+                    //     this.setState({
+                    //         isLoaded: true,
+                    //         error
+                    //     });
+                    // }
+    //             )
+    //     )
+    // }
 
     render() {
         const { error, isLoaded } = this.state;
