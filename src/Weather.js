@@ -4,20 +4,16 @@ import Form from './Form';
 import ErrorWeather from './ErrorWeather';
 
 class Weather extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            error: null,
-            isLoaded: false,
-            city: '',
-            temp: '',
-            desc: '',
-            icon: ''
-        };
+    state = {
+        error: null,
+        isLoaded: false,
+        city: '',
+        temp: '',
+        desc: '',
+        icon: ''
     }
 
-    changeValue = async (city) => {
+    changeValue = async city => {
         try {
             const res = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=pl&units=metric&APPID=db088bed6a1d9bfbf4de73b069768c93`);
             const data = await res.json();

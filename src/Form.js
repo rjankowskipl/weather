@@ -1,24 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Form extends Component {
-    sendForm = (event) => {
+const Form = ({onValueChange}) => {
+    const sendForm = event => {
         return (
-            this.props.onValueChange(this.refs.city.value),
+            onValueChange(event.target.elements[0].value),
             event.preventDefault()
         )
     }
-
-    render() {
-        const city = this.props.value;
-        return (
-            <form onSubmit={(event) => { this.sendForm(event) }}>
-                <div className="input-group">
-                    <input className="form-input input-sm" type="text" value={city} ref="city" placeholder="Wpisz nazwę miasta" />
-                    <button className="btn btn-primary input-group-btn btn-sm">Pokaż</button>
-                </div>
-            </form>
-        )
-    }
+    return (
+        <form onSubmit={sendForm}>
+            <div className="input-group">
+                <input className="form-input input-sm" type="text" placeholder="Wpisz nazwę miasta" />
+                <button className="btn btn-primary input-group-btn btn-sm">Pokaż</button>
+            </div>
+        </form>
+    )
 }
 
 export default Form;
